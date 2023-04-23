@@ -1,8 +1,9 @@
 <template>
   <div class="">
-    <the-header title= 'Resources Stack'></the-header>
-    <div class="container">
+    <the-header title= 'Learning Resources Stack'></the-header>
+    <div class="p-4 md:container">
       <the-resources></the-resources>
+      
     </div>
   </div>
 </template>
@@ -13,8 +14,7 @@ import TheResources from './components/learning-resources/TheResources.vue'
 
 export default {
   components: {
-    TheHeader,
-    TheResources,
+    TheHeader,TheResources
   },
   data(){
     return{

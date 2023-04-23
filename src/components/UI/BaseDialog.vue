@@ -1,5 +1,5 @@
 <template>
-  <teleport>
+  <!-- <teleport> -->
     <div @click="$emit('close')">
       
     </div>
@@ -9,16 +9,16 @@
             <h2 class="text-xl font-medium"> {{title}}</h2>
           </slot>
         </header>
+
         <section>
           <slot></slot>
         </section>
         <menu>
           <slot name="actions">
-
           </slot>
         </menu>
       </dialog>
-  </teleport>
+  <!-- </teleport> -->
 </template>
 
 <script>
@@ -43,8 +43,9 @@ div {
 dialog{
   @apply fixed border-none p-0 m-0 rounded-xl overflow-hidden;
   top: 20vh;
-  left: 25%;
-  width: 80%;
+  left: auto;
+  right: auto;
+  width: 70%;
   z-index: 100;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
 }
