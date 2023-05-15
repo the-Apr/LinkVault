@@ -40,18 +40,25 @@ div {
   background-color: rgba(0, 0, 0, 0.75);
 }
 
-dialog{
+
+dialog{ 
   @apply fixed border-none p-0 m-0 rounded-xl overflow-hidden;
-  top: 20vh;
-  left: auto;
-  right: auto;
-  width: 70%;
+  top: 30vh;
+  left: 50%;  
+  width: 90%;
+  transform: translateX(-50%);
   z-index: 100;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
 }
 
+@screen md{
+  dialog{  
+    width: 70%;
+  }
+}
+
 header{
-  @apply text-white p-4 w-full;
+  @apply text-red-300 p-4 w-full;
   background-color: #3a0061;
 }
 
@@ -67,8 +74,4 @@ menu{
   @apply p-4 flex justify-end m-0
 }
 
-dialog{
-  @apply md:max-w-2xl;
-  left: calc(50%-20rem);
-} 
 </style>

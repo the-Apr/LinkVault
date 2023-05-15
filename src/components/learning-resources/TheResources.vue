@@ -1,21 +1,24 @@
 <template>
-  <base-card>
+  <base-card class="lg:col-span-1 lg:flex flex-col items-center gap-4 hidden">
     <router-link to="/storedresources"> 
-    <base-button :mode= "{'flat': $route.path !== '/storedresources'}">Stored Resources</base-button> 
+    <base-button :mode= "{'flat': $route.path !== '/storedresources'}" class="transition-all hover:ease-out ease-in duration-700">Stored Resources</base-button> 
     </router-link>
 
     <router-link to="/add"> 
     <base-button :mode= "{'flat': $route.path !== '/add'}">Add Resources</base-button> 
     </router-link>
-
-    <!-- <base-button  @click="setSelectedTab('stored-resources')"
-    :mode= 'storedResButtonMode'> Stored Resources
-    </base-button> -->
-    <!-- <base-button  @click="setSelectedTab('add-resources')"
-    :mode= 'addResButtonMode'> Add Resources
-    </base-button> -->
-
   </base-card>
+
+  <base-card class="flex flex-col items-center gap-4 lg:hidden col-span-4" v-show="toggleNav">
+    <router-link to="/storedresources"> 
+    <base-button :mode= "{'flat': $route.path !== '/storedresources'}">StoreResources</base-button> 
+    </router-link>
+
+    <router-link to="/add"> 
+    <base-button :mode= "{'flat': $route.path !== '/add'}">Add Resources</base-button> 
+    </router-link>
+  </base-card>
+
   <router-view v-slot="{Component}">
     <keep-alive>
       <component :is="Component"></component>
@@ -24,20 +27,20 @@
 </template>
 
 <script>
-// import StoredResources from './StoredResources.vue';
-// import AddResources from './AddResources.vue';
-
 export default {
-  components: {
-    // StoredResources,
-    // AddResources,
+  props: {
+    showNav: Boolean,
+    toggleNav: Boolean
   },
+
+  components: {},
+
   created(){
-    this.$router.push('/storedresources')
+    this.$router.push('/storedresources');
   },
+
   data() {
     return{
-      // selectedTab: 'storedResources',
       storedResources: [
         {
           id: 'official-guide',
@@ -66,49 +69,34 @@ export default {
       resources: this.storedResources,
       addResource: this.addResource,
       removeResource: this.removeResource,
-      
     };
   },
   
-  computed : {
-    // storedResButtonMode(){
-    //   return this.$route.path === '/storedresources' ? null : 'flat'
-    // },
-    // addResButtonMode(){
-    //   return this.$route.path === '/add' ? null : 'flat'
-    // },
-    // addResButtonMode(){
-      //   return this.selectedTab === 'add-resources' ? null : 'flat'
-      // }
-    },
+  computed : {},
     
-    methods: {
-      // setSelectedTab(tab){
-        //   this.selectedTab= tab;
-        // },
+  methods: {
+    addResource(title, description, url){
+      const newResource= {
+        id: new Date().toISOString(),
+        title: title,
+        description: description,
+        link: url
+      };
+      this.storedResources.unshift(newResource);
+      this.$router.push('/storedresources');
+      this.enteredTitle= '',
+      this.enteredDescription= '',
+      this.enteredUrl= ''
+    },
         
-        addResource(title, description, url){
-          const newResource= {
-            id: new Date().toISOString(),
-            title: title,
-            description: description,
-            link: url
-          };
-          this.storedResources.unshift(newResource);
-          this.$router.push('/storedresources');
-          this.enteredTitle= '',
-          this.enteredDescription= '',
-          this.enteredUrl= ''
-        },
-        
-        removeResource(resId){
-          // this.storedResources = this.storedResources.filter(
-            //   (res) => res.id !== resId
-            // );
-            // console.log(this.storedResources.length);
-            const resIndex= this.storedResources.findIndex(res=> res.id === resId);
-            this.storedResources.splice(resIndex, 1);
-          },
-        }
+    removeResource(resId){
+      // this.storedResources = this.storedResources.filter(
+      //   (res) => res.id !== resId
+      // );
+      // console.log(this.storedResources.length);
+      const resIndex= this.storedResources.findIndex(res=> res.id === resId);
+      this.storedResources.splice(resIndex, 1);
+    },
+  }
 }
 </script>

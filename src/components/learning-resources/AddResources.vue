@@ -8,6 +8,7 @@
     </template>
   </base-dialog>
 
+  <div class="lg:col-span-3 col-span-4">
   <base-card>
     <form action="" @submit="submitData">
       <div class="form-control">
@@ -27,6 +28,7 @@
       </div>
     </form>
   </base-card>
+</div>
 </template>
 
 <script>

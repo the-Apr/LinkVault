@@ -5,7 +5,7 @@ import './assets/tailwind.css';
 import BaseButton from './components/UI/BaseButton.vue';
 import BaseCard from'./components/UI/BaseCard.vue';
 import BaseDialog from './components/UI/BaseDialog.vue';
-
+// import {eventBus} from './event-bus';
 
 const app= createApp(App)
 
@@ -14,3 +14,5 @@ app.component('base-button', BaseButton);
 app.component('base-dialog', BaseDialog);
 app.use(router);
 app.mount('#app');
+// app.config.globalProperties.$eventBus = eventBus;
+

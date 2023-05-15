@@ -1,8 +1,8 @@
 <template>
   <div class="">
-    <the-header title= 'Learning Resources Stack'></the-header>
-    <div class="p-4 md:container">
-      <the-resources></the-resources>
+    <the-header title='Learning Resources Stack' :show="showNav"></the-header>
+    <div class="lg:container grid grid-cols-4 gap-3">
+      <the-resources :toggleNav="toggleNav"></the-resources>
       
     </div>
   </div>
@@ -18,8 +18,14 @@ export default {
   },
   data(){
     return{
-     
+      toggleNav: false,
     }
   },
+  
+  methods:{
+    showNav(){
+        this.toggleNav =!this.toggleNav;
+      },
+  }
 }
 </script>

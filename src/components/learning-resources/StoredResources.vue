@@ -1,11 +1,12 @@
 <template>
-  <ul>
+  <ul class="lg:col-span-3 col-span-4">
     <learning-resource v-for= 'res in resources' 
       :key= "res.id"
       :id= "res.id"
       :title= 'res.title'
       :description= 'res.description'
-      :link= 'res.link'>
+      :link= 'res.link'
+      class="">
     </learning-resource>
   </ul>
 </template>

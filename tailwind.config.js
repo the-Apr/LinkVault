@@ -9,6 +9,7 @@ module.exports = {
       },
       fontFamily:{
         Poppins: ["Poppins, sans-serif"],
+        dancescript: ["Dancing Script, cursive"]
       },
       container: {
         center: true,

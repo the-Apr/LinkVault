@@ -1,6 +1,6 @@
 <template>
   <li class="">
-    <base-card>
+    <base-card class="mb-4">
       <header class="grid grid-cols-5 gap-4 mb-4">
         <div class="col-span-3">
           <h3 class="text-xl font-bold">{{ title }}</h3>
