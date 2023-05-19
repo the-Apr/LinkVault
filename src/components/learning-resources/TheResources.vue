@@ -29,73 +29,113 @@
 <script>
 export default {
   props: {
-    showNav: Boolean,
     toggleNav: Boolean
   },
-
-  components: {},
-
-  created(){
-    this.$router.push('/storedresources');
-  },
-
+  
   data() {
     return{
-      storedResources: [
-        {
-          id: 'official-guide',
-          title: 'Official guide',
-          description: 'The official vue.js documentation',
-          link: 'https://vuejs.org/guide/introduction.html'
-        },
-        {
-          id: 'google',
-          title: 'Google',
-          description: 'Learn to google',
-          link: 'https://google.com'
-        },
-        {
-          id: 'stackoverflow',
-          title: 'Stack Overflow',
-          description: 'Acommunity of developers for help',
-          link: 'https://stackoverflow.com'
-        },
-      ]
+      storedResources: [],
     };
   },
   
   provide (){
     return{
-      resources: this.storedResources,
+      getResources: () =>this.storedResources,
       addResource: this.addResource,
       removeResource: this.removeResource,
     };
   },
-  
-  computed : {},
+
+  created(){
+    this.$router.push('/storedresources');
+  },
+  mounted(){  
+    fetch("https://learning-resource-app-d3424-default-rtdb.firebaseio.com/resources.json?auth=RdVW03qRcAKgVGrUjMLJyXud3HcmMGZEdlt2M8qr")
+    .then(response => {
+      if(response.ok){
+        return response.json();
+      }
+    })
+    .then(data => {
+      // Convert the fetched data into an array
+      const resourcesArray = Object.keys(data).map(key => {
+        const resource = data[key];
+        resource.id = key;
+        return resource;
+      });
+      // Sort the resources by timestamp (assuming you have a timestamp field in your Firebase data)
+      resourcesArray.sort((a, b) => b.id.localeCompare(a.id));
+
+      // Set the resources array
+      this.storedResources = resourcesArray;
+    })
+    .catch(error => {
+      console.log(error);
+    });
+  },
     
   methods: {
     addResource(title, description, url){
+      console.log('working')
       const newResource= {
         id: new Date().toISOString(),
         title: title,
         description: description,
         link: url
       };
-      this.storedResources.unshift(newResource);
-      this.$router.push('/storedresources');
-      this.enteredTitle= '',
-      this.enteredDescription= '',
-      this.enteredUrl= ''
+
+      fetch("https://learning-resource-app-d3424-default-rtdb.firebaseio.com/resources.json?auth=RdVW03qRcAKgVGrUjMLJyXud3HcmMGZEdlt2M8qr", {
+        method: 'POST',
+        headers: {
+          'Content-Type' : 'application/json'
+        },
+        body: JSON.stringify(newResource)
+      }).then(response =>{
+        if(response.ok){
+          response.json()
+        }else{
+          throw new Error("Could not submit data. Try again")
+        }
+      })
+      .then(data => {
+        // update your storedResources with the new resource returned from Firebase
+        newResource.id = data?.name ?? data?.resource?.id;
+
+        this.storedResources.unshift(newResource);
+        this.$router.push('/storedresources');
+        this.enteredTitle= '',
+        this.enteredDescription= '',
+        this.enteredUrl= ''
+      })
+    .catch((error) => {
+        console.log(error);
+        this.error= error.message;
+      });
     },
         
     removeResource(resId){
-      // this.storedResources = this.storedResources.filter(
-      //   (res) => res.id !== resId
-      // );
-      // console.log(this.storedResources.length);
       const resIndex= this.storedResources.findIndex(res=> res.id === resId);
       this.storedResources.splice(resIndex, 1);
+
+      fetch(`https://learning-resource-app-d3424-default-rtdb.firebaseio.com/resources/${resId}.json?auth=RdVW03qRcAKgVGrUjMLJyXud3HcmMGZEdlt2M8qr`, {
+      method: 'DELETE',
+    })
+      .then(response => {
+        if (response.ok) {
+          console.log('wont delete');
+          const newDelete = () =>{
+           this.deleteConfirm = true;
+          }
+
+          newDelete();
+          // Resource successfully deleted from the Firebase database
+        } else {
+          throw new Error('Failed to delete resource from the Firebase database');
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
     },
   }
 }

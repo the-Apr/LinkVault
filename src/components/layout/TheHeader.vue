@@ -17,13 +17,6 @@
       title: String,
       show: Function
     },
-    
-    emits: ['show'],
-    data(){
-      return{};
-    },
-    
-    methods: {},
   }
 </script>
 

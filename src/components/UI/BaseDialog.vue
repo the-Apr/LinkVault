@@ -58,7 +58,7 @@ dialog{
 }
 
 header{
-  @apply text-red-300 p-4 w-full;
+  @apply text-white p-4 w-full;
   background-color: #3a0061;
 }
 

@@ -65,7 +65,7 @@ export default {
 
     confirmError(){
       this.inputisInvalid = false;
-    }
+    },
   },
 }
 </script>

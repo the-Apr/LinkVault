@@ -1,4 +1,15 @@
 <template>
+  
+  <base-dialog title="Succesfully deleted" @close="deleted" v-if="deleteConfirm">
+    <template #default>
+      <p>xyz has been deleted</p>
+    </template>
+    <template v-slot:actions>
+      <base-button @click="deleted">Okay</base-button>
+    </template>
+  </base-dialog>
+
+
   <li class="">
     <base-card class="mb-4">
       <header class="grid grid-cols-5 gap-4 mb-4">
@@ -17,7 +28,30 @@
 
 <script>
 export default {
-  props: ['id', 'title', 'description', 'link'],
-  inject:['removeResource']
-}
+  
+  props:{
+    id: String,
+    title: String,
+    description: String,
+    link: String,
+    // deleteConfirm: {
+    //   type: Boolean,
+    //   default: false,
+    // },
+    // deleted: Function
+  },
+
+  data(){
+    return{
+      deleteConfirm: false,
+    }
+  },
+
+  inject:['removeResource'],
+  methods: {
+    deleted(){
+      this.deleteConfirm= false;
+    }
+  }
+} 
 </script>
